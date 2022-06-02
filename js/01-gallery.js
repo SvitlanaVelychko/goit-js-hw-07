@@ -1,10 +1,10 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 const galleryContainer = document.querySelector('.gallery');
+const imagesMarkup = onCreateGalleryItemsMarkup(galleryItems);
 let galleryLightbox;
 
-galleryContainer.innerHTML = onCreateGalleryItemsMarkup(galleryItems);
-
+galleryContainer.insertAdjacentHTML('beforeend', imagesMarkup);
 galleryContainer.addEventListener('click', onGalleryImageClick);
 
 function onCreateGalleryItemsMarkup(items) {
@@ -37,7 +37,12 @@ function onGalleryImageClick(e) {
     const originalImg = image.dataset.source;
     galleryLightbox = basicLightbox.create(`
     <div class="modal">
-        <img src="${originalImg}" alt="${image.alt}" width="1120" height="740"/>
+        <img
+        src="${originalImg}"
+        alt="${image.alt}"
+        width="1120" 
+        height="740"
+        />
     </div>
 `,
     {
