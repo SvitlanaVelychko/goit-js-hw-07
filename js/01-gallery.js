@@ -1,9 +1,9 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 const galleryContainer = document.querySelector('.gallery');
-const galleryItemsMarkup = onCreateGalleryItemsMarkup(galleryItems);
+let galleryLightbox;
 
-galleryContainer.insertAdjacentHTML('beforeend', galleryItemsMarkup);
+galleryContainer.innerHTML = onCreateGalleryItemsMarkup(galleryItems);
 
 galleryContainer.addEventListener('click', onGalleryImageClick);
 
@@ -34,7 +34,27 @@ function onGalleryImageClick(e) {
         return;
     }
 
-    console.log(image.dataset.source);
+    const originalImg = image.dataset.source;
+    galleryLightbox = basicLightbox.create(`
+    <div class="modal">
+        <img src="${originalImg}" alt="${image.alt}" width="1120" height="740"/>
+    </div>
+`,
+    {
+        onShow: (instance) => {
+            instance.element().querySelector('img').onclick = galleryLightbox.close
+            document.addEventListener('keydown', onEscPress);
+        },
+        onClose: (instance) => {
+            document.removeEventListener('keydown', onEscPress);
+        }
+    })
+    
+    galleryLightbox.show()
 }
 
-console.log(galleryItems);
+function onEscPress(e) {
+    if (e.code === 'Escape') {
+        galleryLightbox.close();
+    }
+}
