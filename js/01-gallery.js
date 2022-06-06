@@ -47,7 +47,7 @@ function onGalleryImageClick(e) {
 `,
     {
         onShow: (instance) => {
-            instance.element().querySelector('img').onclick = galleryLightbox.close
+            instance.element().querySelector('img').onclick = galleryLightbox.close;
             document.addEventListener('keydown', onEscPress);
         },
         onClose: (instance) => {
